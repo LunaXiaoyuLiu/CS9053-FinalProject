@@ -6,8 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -18,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class LogInFrame extends JFrame {
 	
@@ -25,6 +29,7 @@ public class LogInFrame extends JFrame {
 	JPanel buttonPanel;
 	JTextField usernameTextField;
 	JTextField passwordTextField;
+	JLabel message;
 	
 	public LogInFrame() {
 		
@@ -37,6 +42,9 @@ public class LogInFrame extends JFrame {
 		
 		inputPane();
 		buttonPane();
+		
+		message = new JLabel("");
+		rootPanel.add(message, BorderLayout.NORTH);
 		
 		rootPanel.add(inputPanel, BorderLayout.CENTER);
 		rootPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -85,7 +93,7 @@ public class LogInFrame extends JFrame {
 		JButton logInButton = new JButton("Log In");
 		buttonPanel.add(logInButton);
 		
-		LogInActionListener logInListener = new LogInActionListener();
+		LogInActionListener logInListener = new LogInActionListener(this);
 		logInButton.addActionListener(logInListener);
 		
 		JButton registerButton = new JButton("Register");
@@ -97,6 +105,12 @@ public class LogInFrame extends JFrame {
 	}
 	
 	private class LogInActionListener implements ActionListener {
+		
+		private JFrame currentFrame;
+		
+		public LogInActionListener(JFrame currentFrame) {
+            this.currentFrame = currentFrame;
+        }
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -104,9 +118,15 @@ public class LogInFrame extends JFrame {
 			String username = usernameTextField.getText();
 			String password = passwordTextField.getText();
 			
+			if (username.isEmpty() || password.isEmpty()) {
+				
+				message.setText("Username or password cannot be empty.");
+				
+			}
+			
 			// TODO
 			int port = 9999;
-			String ip = "localhost";
+			String ip = "192.168.1.210";
 			try {
 				Socket socket = new Socket(ip, port);
 				
@@ -116,8 +136,39 @@ public class LogInFrame extends JFrame {
 				pw.println(password);
 				pw.flush();
 				
-				pw.close();
 				
+				InputStream is = socket.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                String response = br.readLine();
+                
+                System.out.print("client: " + response);
+                 
+                if (response.equals("Login successful!")) {
+                	br.close();
+                    pw.close();
+                    
+                    JFrame frame = new DashboardFrame();
+        			currentFrame.dispose();
+                }
+                
+                else if (response.equals("Wrong password.") || response.equals("User doesn't exist. Register first.")) {
+                	
+                	if (SwingUtilities.isEventDispatchThread()) {
+                        message.setText(response);
+                        System.out.println(message.getText()); // Print response for debugging
+                    } else {
+                        SwingUtilities.invokeLater(() -> {
+                            message.setText(response);
+                            System.out.println(message.getText()); // Print response for debugging
+                        });
+                    }
+                	
+                }
+                
+                
+				
+				socket.close();
+                
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

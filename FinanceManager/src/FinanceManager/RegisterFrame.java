@@ -120,7 +120,7 @@ public class RegisterFrame extends JFrame {
 			
 			if (username.isEmpty() || password.isEmpty()) {
 				
-				message.setText("Username or password cannot be empty");
+				message.setText("Username or password cannot be empty.");
 				
 			}
 			
