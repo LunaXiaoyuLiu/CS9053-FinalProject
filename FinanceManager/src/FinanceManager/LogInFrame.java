@@ -126,7 +126,7 @@ public class LogInFrame extends JFrame {
 			
 			// TODO
 			int port = 9999;
-			String ip = "192.168.1.210";
+			String ip = "localhost";
 			try {
 				Socket socket = new Socket(ip, port);
 				
@@ -147,7 +147,7 @@ public class LogInFrame extends JFrame {
                 	br.close();
                     pw.close();
                     
-                    JFrame frame = new DashboardFrame();
+                    JFrame frame = new DashboardFrame(username);
         			currentFrame.dispose();
                 }
                 
