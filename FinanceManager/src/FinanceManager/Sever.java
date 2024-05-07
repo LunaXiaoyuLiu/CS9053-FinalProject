@@ -39,12 +39,30 @@ public class Sever {
                 e.printStackTrace();
             }
         });
+        
+        Thread recordInvestmentThread = new Thread(() -> {
+            try {
+                RecordInvestmentServer.main(args);
+            } catch (IOException | SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        Thread returnInvestmentThread = new Thread(() -> {
+            try {
+                ReturnInvestmentServer.main(args);
+            } catch (IOException | SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Start all threads
         loginThread.start();
         registerThread.start();
         recordNetIncomeThread.start();
         returnNetIncomeThread.start();
+        recordInvestmentThread.start();
+        returnInvestmentThread.start();
     }			
 
 }

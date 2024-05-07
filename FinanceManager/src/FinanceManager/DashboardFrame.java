@@ -139,7 +139,15 @@ public class DashboardFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			JFrame frame = new InvestmentFrame(username);
+			try {
+				JFrame frame = new InvestmentFrame(username);
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			currentFrame.dispose();
 			
 		}
