@@ -32,6 +32,7 @@ public class InvestmentFrame extends JFrame {
 	JPanel inputPanel;
 	JPanel buttonPanel;
 	JPanel displayPanel;
+	JPanel InvestmentDetailPanel;
 	JTextField inputName;
 	JTextField inputAmount;
 	JTextField inputExpectedYield;
@@ -39,6 +40,24 @@ public class InvestmentFrame extends JFrame {
 	JLabel errorMessage = new JLabel();
 	String yield;
 	String investment;
+	
+	String investAmount1;
+	String matureTime1;
+	String name1;
+	String yieldAmount1;
+	String investAmount2;
+	String matureTime2;
+	String name2;
+	String yieldAmount2;
+	String investAmount3;
+	String matureTime3;
+	String name3;
+	String yieldAmount3;
+	String investAmount4;
+	String matureTime4;
+	String name4;
+	String yieldAmount4;
+
 	
 	public InvestmentFrame(String username) throws UnknownHostException, IOException {
 		
@@ -75,10 +94,15 @@ public class InvestmentFrame extends JFrame {
 		constraints.gridx = 1;
 		constraints.gridy = 3;
 		rootPanel.add(displayPanel, constraints);
-		createButtonPanel();
+		createInvestmentDetailPanel();
 		constraints.gridx = 1;
 		constraints.gridy = 4;
+		rootPanel.add(InvestmentDetailPanel, constraints);
+		createButtonPanel();
+		constraints.gridx = 1;
+		constraints.gridy = 5;
 		rootPanel.add(buttonPanel, constraints);
+		
 		
 	}
 	
@@ -167,6 +191,120 @@ public class InvestmentFrame extends JFrame {
 		
 	}
 	
+	public void createInvestmentDetailPanel() {
+		
+		InvestmentDetailPanel = new JPanel();
+		InvestmentDetailPanel.setLayout(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.insets = new Insets(5, 5, 5, 5);
+		
+		JLabel incomingtInvestmentLabel = new JLabel("Incoming investment matures");
+		constraints.gridx = 1;
+        constraints.gridy = 1;
+        InvestmentDetailPanel.add(incomingtInvestmentLabel, constraints);
+        
+        JLabel nameLabel = new JLabel("Investment Name");
+		constraints.gridx = 1;
+        constraints.gridy = 2;
+        InvestmentDetailPanel.add(nameLabel, constraints);
+        
+        JLabel investAmountLabel = new JLabel("Investment Amount");
+		constraints.gridx = 2;
+        constraints.gridy = 2;
+        InvestmentDetailPanel.add(investAmountLabel, constraints);
+        
+        JLabel yieldAmountLabel = new JLabel("Yield Amount");
+		constraints.gridx = 3;
+        constraints.gridy = 2;
+        InvestmentDetailPanel.add(yieldAmountLabel, constraints);
+        
+        JLabel matureDateLabel = new JLabel("mature date");
+		constraints.gridx = 4;
+        constraints.gridy = 2;
+        InvestmentDetailPanel.add(yieldAmountLabel, constraints);
+        
+        JLabel nameLabel1 = new JLabel(name1);
+		constraints.gridx = 1;
+        constraints.gridy = 3;
+        InvestmentDetailPanel.add(nameLabel1, constraints);
+        
+        JLabel investAmountLabel1 = new JLabel(investAmount1);
+        constraints.gridx = 2;
+        constraints.gridy = 3;
+        InvestmentDetailPanel.add(investAmountLabel1, constraints);
+        
+        JLabel yieldAmountLabel1 = new JLabel(yieldAmount1);
+        constraints.gridx = 3;
+        constraints.gridy = 3;
+        InvestmentDetailPanel.add(yieldAmountLabel1, constraints);
+        
+        JLabel matureTimeLabel1 = new JLabel(matureTime1);
+        constraints.gridx = 4;
+        constraints.gridy = 3;
+        InvestmentDetailPanel.add(matureTimeLabel1, constraints);
+        
+        JLabel nameLabel2 = new JLabel(name2);
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        InvestmentDetailPanel.add(nameLabel2, constraints);
+        
+        JLabel investAmountLabel2 = new JLabel(investAmount2);
+        constraints.gridx = 2;
+        constraints.gridy = 4;
+        InvestmentDetailPanel.add(investAmountLabel2, constraints);
+        
+        JLabel yieldAmountLabel2 = new JLabel(yieldAmount2);
+        constraints.gridx = 3;
+        constraints.gridy = 4;
+        InvestmentDetailPanel.add(yieldAmountLabel2, constraints);
+        
+        JLabel matureTimeLabel2 = new JLabel(matureTime2);
+        constraints.gridx = 4;
+        constraints.gridy = 4;
+        InvestmentDetailPanel.add(matureTimeLabel2, constraints);
+        
+        JLabel nameLabel3 = new JLabel(name3);
+        constraints.gridx = 1;
+        constraints.gridy = 5;
+        InvestmentDetailPanel.add(nameLabel3, constraints);
+        
+        JLabel investAmountLabel3 = new JLabel(investAmount3);
+        constraints.gridx = 2;
+        constraints.gridy = 5;
+        InvestmentDetailPanel.add(investAmountLabel3, constraints);
+        
+        JLabel yieldAmountLabel3 = new JLabel(yieldAmount3);
+        constraints.gridx = 3;
+        constraints.gridy = 5;
+        InvestmentDetailPanel.add(yieldAmountLabel3, constraints);
+        
+        JLabel matureTimeLabel3 = new JLabel(matureTime3);
+        constraints.gridx = 4;
+        constraints.gridy = 5;
+        InvestmentDetailPanel.add(matureTimeLabel3, constraints);
+        
+        JLabel nameLabel4 = new JLabel(name4);
+        constraints.gridx = 1;
+        constraints.gridy = 6;
+        InvestmentDetailPanel.add(nameLabel4, constraints);
+        
+        JLabel investAmountLabel4 = new JLabel(investAmount4);
+        constraints.gridx = 2;
+        constraints.gridy = 6;
+        InvestmentDetailPanel.add(investAmountLabel4, constraints);
+        
+        JLabel yieldAmountLabel4 = new JLabel(yieldAmount4);
+        constraints.gridx = 3;
+        constraints.gridy = 6;
+        InvestmentDetailPanel.add(yieldAmountLabel4, constraints);
+        
+        JLabel matureTimeLabel4 = new JLabel(matureTime4);
+        constraints.gridx = 4;
+        constraints.gridy = 6;
+        InvestmentDetailPanel.add(matureTimeLabel4, constraints);
+		
+	}
+	
 	public void getValues() throws UnknownHostException, IOException {
 		
 		int port = 9994;
@@ -182,6 +320,28 @@ public class InvestmentFrame extends JFrame {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         investment = br.readLine();
         yield = br.readLine();
+        
+
+        name1 = br.readLine();
+        investAmount1 = br.readLine();
+        yieldAmount1 = br.readLine();
+        matureTime1 = br.readLine();
+        
+        name2 = br.readLine();
+        investAmount2 = br.readLine();
+        yieldAmount2 = br.readLine();
+        matureTime2 = br.readLine();
+        
+        name3 = br.readLine();
+        investAmount3 = br.readLine();
+        yieldAmount3 = br.readLine();
+        matureTime3 = br.readLine();
+        
+        name4 = br.readLine();
+        investAmount4 = br.readLine();
+        yieldAmount4 = br.readLine();
+        matureTime4 = br.readLine();
+
         
         br.close();
 		pw.close();

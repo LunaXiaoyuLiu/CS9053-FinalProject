@@ -1,10 +1,20 @@
 package FinanceManager;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class SavingsFrame extends JFrame {
 	
 	String username;
+	JPanel rootPanel;
+	JPanel inputPanel;
+	JPanel buttonPanel;
+	JPanel displayPanel;
+	JTextField inputAmount;
+	JLabel errorMessage = new JLabel();
+	String yield;
 	
 	public SavingsFrame(String username) {
 		

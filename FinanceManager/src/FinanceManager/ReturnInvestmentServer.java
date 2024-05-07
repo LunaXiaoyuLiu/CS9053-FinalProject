@@ -88,6 +88,35 @@ public class ReturnInvestmentServer {
         
         sendMessage(yield, socket.getOutputStream());
         
+        sql = "SELECT `name`, investmentAmount, expectedYield, matureDate FROM Investments WHERE Username = ? AND matureDate > CURRENT_DATE ORDER BY matureDate ASC LIMIT 4";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, username);
+        
+        rs = pstmt.executeQuery();
+        
+        
+        for (int i = 0; i < 4; i++) {
+        	
+        	String name = "";
+            String investmentAmount = "";
+            String yieldAmount = "";
+            String matureDate = "";
+        	
+        	if (rs.next()) {
+                name = rs.getString("name"); 
+                investmentAmount = rs.getString("investmentAmount");
+                yieldAmount = rs.getString("expectedYield");
+                matureDate = rs.getString("matureDate");
+            }
+        	
+        	sendMessage(name, socket.getOutputStream());
+        	sendMessage(investmentAmount, socket.getOutputStream());
+        	sendMessage(yieldAmount, socket.getOutputStream());
+        	sendMessage(matureDate, socket.getOutputStream());
+        	
+        }
+
+        
         conn.close();
 		socket.close();
 		ss.close();
