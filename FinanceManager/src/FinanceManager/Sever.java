@@ -55,6 +55,22 @@ public class Sever {
                 e.printStackTrace();
             }
         });
+        
+        Thread recordSavingsThread = new Thread(() -> {
+            try {
+                RecordSavingsServer.main(args);
+            } catch (IOException | SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        Thread returnSavingsThread = new Thread(() -> {
+            try {
+                ReturnSavingsServer.main(args);
+            } catch (IOException | SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Start all threads
         loginThread.start();
@@ -63,6 +79,8 @@ public class Sever {
         returnNetIncomeThread.start();
         recordInvestmentThread.start();
         returnInvestmentThread.start();
+        recordSavingsThread.start();
+        returnSavingsThread.start();
     }			
 
 }

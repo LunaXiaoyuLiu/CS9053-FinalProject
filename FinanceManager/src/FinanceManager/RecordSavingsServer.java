@@ -14,24 +14,19 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class RecordInvestmentServer {
+public class RecordSavingsServer {
 	
 	ServerSocket ss;
 	Socket socket;
 	String username;
-	String name;
-	String date;
 	float floatValueAmount;
-	float floatValueYield;
 	
 	public static void main(String[] args) throws IOException, ParseException, SQLException {
 		
 		while (true) {
 		
-			RecordInvestmentServer server = new RecordInvestmentServer();
+			RecordSavingsServer server = new RecordSavingsServer();
 			
 			server.insertIntoDatabase();
 			
@@ -39,9 +34,9 @@ public class RecordInvestmentServer {
 		
 	}
 	
-	public RecordInvestmentServer() throws IOException, ParseException {
+	public RecordSavingsServer() throws IOException, ParseException {
 		
-		int port = 9995;
+		int port = 9993;
 		
 		System.out.println("Listening...");
 		ss = new ServerSocket(port);
@@ -54,31 +49,33 @@ public class RecordInvestmentServer {
 		
 		username = br.readLine();
 		String amount = br.readLine();
-		String yield = br.readLine();
-		name = br.readLine();
-		date = br.readLine();
 		
 		floatValueAmount = parse(amount);
-		floatValueYield = parse(yield);
-        System.out.println("Parsed float value with 2 decimals: " + floatValueAmount + floatValueYield);
+        System.out.println("Parsed float value with 2 decimals: " + floatValueAmount);
 	}
 	
-	public void insertIntoDatabase() throws IOException, SQLException {
-		
+
+	private float parse(String amount) throws ParseException {
+		// TODO Auto-generated method stub
+		DecimalFormat df = new DecimalFormat("#.##");
+        df.setParseBigDecimal(true);
+        
+        return df.parse(amount).floatValue();
+	}
+
+	private void insertIntoDatabase() throws SQLException, IOException {
+		// TODO Auto-generated method stub
 		String url = "jdbc:mysql://127.0.0.1:3306/FinanceManager";
 		String db_username = "root";
 		String db_password = "";
 				
 		Connection conn = DriverManager.getConnection(url, db_username, db_password);
 		
-		String sql = "INSERT INTO Investments (username, investmentAmount, expectedYield, matureDate, `name`, investTime) VALUES (?, ?, ?, STR_TO_DATE(?, '%Y-%m-%d'), ?, CURRENT_TIMESTAMP)";
+		String sql = "INSERT INTO Savings (username, savingAmount, savingTime) VALUES (?, ?, CURRENT_TIMESTAMP)";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, username);
         pstmt.setFloat(2, floatValueAmount);
-        pstmt.setFloat(3, floatValueYield);
-        pstmt.setString(4, date);
-        pstmt.setString(5, name);
         int rowsInserted = pstmt.executeUpdate();
         System.out.println(rowsInserted + " row(s) inserted.");
         sendMessage("Record successful!", socket.getOutputStream());
@@ -91,13 +88,6 @@ public class RecordInvestmentServer {
 		
 	}
 	
-    private float parse(String netIncomeString) throws ParseException {
-        DecimalFormat df = new DecimalFormat("#.##");
-        df.setParseBigDecimal(true);
-        
-        return df.parse(netIncomeString).floatValue();
-    }
-    
 	private void sendMessage(String message, OutputStream outputStream) {
 	    try {
 	        PrintWriter pw = new PrintWriter(outputStream, true);
