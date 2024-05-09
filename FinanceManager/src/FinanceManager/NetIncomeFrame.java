@@ -341,7 +341,15 @@ public class NetIncomeFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			JFrame frame = new DashboardFrame(username);
+			try {
+				JFrame frame = new DashboardFrame(username);
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			currentFrame.dispose();
 			
 		}

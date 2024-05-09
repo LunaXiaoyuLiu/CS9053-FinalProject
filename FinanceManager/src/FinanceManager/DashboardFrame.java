@@ -5,7 +5,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
@@ -16,25 +22,51 @@ import javax.swing.JPanel;
 public class DashboardFrame extends JFrame {
 	
 	JPanel Panel;
-	String netIncome = "0.00"; //TODO
-	String investment = "0.00"; //TODO
-	String savings = "0.00"; //TODO
+	String netIncome = "0.00";
+	String investment = "0.00"; 
+	String savings = "0.00"; 
 	String username;
 	
-	public DashboardFrame(String username) {
+	public DashboardFrame(String username) throws UnknownHostException, IOException {
 		
 		super("Finance Manager -- Dashboard");
 		
 		this.username = username;
 		
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(500, 300);
 		
+		getValues();
 		Panel();
 		this.add(Panel);
 		
 		this.setVisible(true);
 		
+	}
+	
+	public void getValues() throws UnknownHostException, IOException {
+		
+		int port = 9991;
+		String ip = "localhost";
+		
+		Socket socket = new Socket(ip, port);
+		OutputStream os = socket.getOutputStream();
+		PrintWriter pw = new PrintWriter(os);
+		pw.println(username);
+		pw.flush();
+		
+		System.out.println("reached here");
+		
+		InputStream is = socket.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        netIncome = br.readLine();
+        investment = br.readLine();
+		savings = br.readLine();
+		
+		br.close();
+		pw.close();
+		socket.close();
 	}
 	
 	public void Panel() {

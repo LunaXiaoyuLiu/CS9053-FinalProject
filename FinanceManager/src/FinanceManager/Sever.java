@@ -71,6 +71,14 @@ public class Sever {
                 e.printStackTrace();
             }
         });
+        
+        Thread dashboardThread = new Thread(() -> {
+            try {
+                DashboardServer.main(args);
+            } catch (IOException | SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Start all threads
         loginThread.start();
@@ -81,6 +89,7 @@ public class Sever {
         returnInvestmentThread.start();
         recordSavingsThread.start();
         returnSavingsThread.start();
+        dashboardThread.start();
     }			
 
 }
