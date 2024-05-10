@@ -126,7 +126,7 @@ public class RegisterFrame extends JFrame {
 			
 			else {
 	            int port = 9998;
-	            String ip = "192.168.1.210";
+	            String ip = "localhost";
 	            Socket socket;
 	            try {
 	                socket = new Socket(ip, port);
